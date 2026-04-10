@@ -259,11 +259,6 @@ jupyter>=1.0.0
 
 **Alfiya Mulla**  
 Data Science Undergraduate — D.Y. Patil College of Engineering & Technology (CGPA: 8.57)  
-Research Intern — IIT Bombay, Affective Computing Lab (Jun–Sep 2025)
-
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue?logo=linkedin)](https://linkedin.com/in/your-link)
-[![GitHub](https://img.shields.io/badge/GitHub-Follow-black?logo=github)](https://github.com/Alfiya21)
-[![Email](https://img.shields.io/badge/Email-Contact-red?logo=gmail)](mailto:alfiyamulla138@gmail.com)
 
 ---
 
