@@ -23,19 +23,19 @@ This project builds a **production-style, explainable ML pipeline** that not onl
 
 | Metric | Result |
 |--------|--------|
-| ROC-AUC Score | **Strong predictive performance** |
-| Recall (Churn class) | **High recall — maximises early detection** |
+| ROC-AUC Score | **0.8454** |
+| Recall (Churn class) | **78% — maximises early detection of at-risk customers** |
 | Explainability | **Per-customer SHAP explanations** |
-| Retention Simulation | **Revenue saved & campaign ROI estimated** |
+| Retention Simulation | **Revenue saved & campaign ROI estimated per risk tier** |
 
-> **Business framing:** High recall on churners means fewer at-risk customers are missed — each missed churner represents lost CLV. The retention simulation converts model output into a boardroom-ready business case.
+> **Business framing:** A ROC-AUC of 0.8454 with 78% recall on the churn class means fewer at-risk customers are missed — each missed churner represents lost Customer Lifetime Value (CLV). The retention simulation converts model output into a boardroom-ready business case.
 
 ---
 
 ## 🏗️ System Architecture
 
 ```
-Raw Data (7K customers)
+Raw Data (7,043 customers, 20 features)
         │
         ▼
 ┌─────────────────────┐
@@ -110,7 +110,7 @@ Since real-time event logs aren't publicly available, **6 industry-standard beha
 
 ## 🤖 Model: Cost-Sensitive Random Forest
 
-**Why Random Forest over Logistic Regression baseline?**
+**Why Random Forest over Logistic Regression?**
 
 - Captures non-linear relationships between features (e.g., tenure × contract type)
 - Robust to correlated features (telecom data has many)
@@ -118,6 +118,8 @@ Since real-time event logs aren't publicly available, **6 industry-standard beha
 - Natively compatible with SHAP TreeExplainer (fast, exact SHAP values)
 
 **Class Imbalance Strategy:** `class_weight='balanced'` — penalises misclassifying the minority (churn) class, maximising recall without needing synthetic oversampling.
+
+> With **78% recall on the churn class**, the model correctly identifies the vast majority of customers who will leave — the metric that matters most in a retention context, since false negatives (missed churners) are far costlier than false positives.
 
 ---
 
@@ -127,7 +129,7 @@ Predictions without explanations aren't actionable for business teams. SHAP was 
 
 **Global Level** — Which features drive churn across all customers?
 ```
-Top churn drivers (representative):
+Top churn drivers:
 1. Contract type        — Month-to-month customers churn most
 2. Tenure               — New customers are highest risk
 3. Monthly charges      — High charges with low service count = churn signal
@@ -142,7 +144,7 @@ Each prediction includes a per-customer SHAP explanation, enabling customer serv
 
 ## 🎯 Retention Strategy Simulation
 
-The system segments customers into 3 risk tiers and recommends targeted actions:
+The system segments customers into 3 risk tiers based on predicted churn probability and recommends targeted, cost-proportionate actions:
 
 | Risk Tier | Churn Probability | Strategy | Assumed Retention Rate |
 |-----------|------------------|----------|------------------------|
@@ -155,6 +157,8 @@ The system segments customers into 3 risk tiers and recommends targeted actions:
 - Revenue saved (based on avg CLV assumptions)
 - Campaign cost (cost per retention offer)
 - **Net business gain**
+
+> This closes the loop between model output and measurable business impact — translating an ML prediction into a decision a product or marketing team can act on immediately.
 
 ---
 
@@ -239,26 +243,29 @@ jupyter>=1.0.0
 ## 📊 Dataset
 
 **Source:** [Telco Customer Churn — IBM Sample Dataset](https://www.kaggle.com/datasets/blastchar/telco-customer-churn)  
-**Records:** ~7,043 customers | **Features:** 20 original + 6 engineered  
+**Records:** 7,043 customers | **Features:** 20 original + 6 engineered  
 **Target:** `Churn` (Yes / No) — ~26% positive class (imbalanced)
 
 ---
 
 ## 🧩 Skills Demonstrated
 
-- End-to-end ML pipeline design (not just notebook)
-- Business-oriented feature engineering without leakage
-- Class imbalance handling with cost-sensitive learning
-- Explainable AI (XAI) for stakeholder communication
+- End-to-end ML pipeline design with modular `src/` architecture
+- Business-oriented feature engineering without data leakage
+- Class imbalance handling with cost-sensitive learning (`class_weight='balanced'`)
+- Statistical feature analysis and in-depth exploratory data analysis
+- Explainable AI (XAI) with SHAP for stakeholder communication
+- Customer segmentation into data-driven churn-risk tiers
 - Translating model output into business ROI — the real ML challenge
-- Modular, production-style code structure (`src/` architecture)
 
 ---
 
 ## 👩‍💻 Author
 
 **Alfiya Mulla**  
-Data Science Undergraduate — D.Y. Patil College of Engineering & Technology (CGPA: 8.57)  
+Data Science Undergraduate — D.Y. Patil College of Engineering & Technology (CGPA: 8.57)
+
+[![GitHub](https://img.shields.io/badge/GitHub-Alfiya21-black?logo=github)](https://github.com/Alfiya21)
 
 ---
 
