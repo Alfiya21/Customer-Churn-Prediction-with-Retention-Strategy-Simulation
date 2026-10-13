@@ -1,0 +1,7 @@
+artifacts/
+feature_store/feature_repo/data/
+__pycache__/
+*.pyc
+mlruns/
+spark-warehouse/
+metastore_db/
